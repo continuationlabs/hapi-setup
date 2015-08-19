@@ -13,11 +13,15 @@ hapi plugin for viewing the server configuration. Provides information such as t
 
 ### `path`
 
-The endpoint where the plugin will serve content. Defaults to `'/hapi-setup'`.
+The endpoint where the plugin will serve HTML. Defaults to `'/hapi-setup'`.
+
+### `dataPath`
+
+The endpoint where the plugin will serve JSON. Defaults to `'/hapi-setup/data'`.
 
 ## Response
 
-The plugin's endpoint returns data in the following format:
+The plugin's data endpoint returns JSON in the following format:
 
 - `runtime` - Object. Contains information about the Node process.
   - `versions` - Object. The version of Node, as well as Node's dependencies.
