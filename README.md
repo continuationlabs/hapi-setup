@@ -9,7 +9,8 @@ hapi plugin that exposes a `setup` method for retrieving the server configuratio
 
 ## Example Usage
 
-The example below registers the `hapi-setup` plugin. In the handler for the "/about" route, the `hapi-setup.setup()` function is executed, which returns an object, and the result is then used to reply to the incomming request.
+The example below registers the `hapi-setup` plugin. In the handler for the `/about` route, the `hapi-setup.setup()` function is executed, which returns an object, and the result is then used to reply to the incoming request.
+
 ```js
 var server = new Hapi.Server();
 server.connection();

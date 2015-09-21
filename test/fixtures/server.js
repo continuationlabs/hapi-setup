@@ -1,8 +1,7 @@
 'use strict';
 var Hapi = require('hapi');
 var HapiSetup = require('../../lib');
-var PluginFoo = require('./plugins').Foo;
-var PluginBar = require('./plugins').Bar;
+var Plugins = require('./plugins');
 
 module.exports.prepareServer = function (options, callback) {
   if (typeof options === 'function') {
@@ -30,11 +29,11 @@ module.exports.prepareServer = function (options, callback) {
       options: options
     },
     {
-      register: PluginFoo,
+      register: Plugins.Foo,
       options: {}
     },
     {
-      register: PluginBar,
+      register: Plugins.Bar,
       options: {key: 'value'}
     }
 
