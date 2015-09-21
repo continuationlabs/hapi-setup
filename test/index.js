@@ -15,7 +15,7 @@ Code.settings.truncateMessages = false;
 function getData (server, path, callback) {
   if (typeof path === 'function') {
     callback = path;
-    path = '/hapi-setup/data';
+    path = '/about';
   }
 
   server.inject({
@@ -57,6 +57,11 @@ describe('hapi-setup Plugin', function () {
         expect(connections[0].routes).to.deep.equal([
           {
             method: 'GET',
+            path: '/about',
+            plugin: null
+          },
+          {
+            method: 'GET',
             path: '/foo-no-labels',
             plugin: 'foo'
           },
@@ -69,16 +74,6 @@ describe('hapi-setup Plugin', function () {
             method: 'GET',
             path: '/foo-public-label',
             plugin: 'foo'
-          },
-          {
-            method: 'GET',
-            path: '/hapi-setup',
-            plugin: 'hapi-setup'
-          },
-          {
-            method: 'GET',
-            path: '/hapi-setup/data',
-            plugin: 'hapi-setup'
           },
           {
             method: 'GET',
@@ -100,6 +95,11 @@ describe('hapi-setup Plugin', function () {
         expect(connections[1].routes).to.deep.equal([
           {
             method: 'GET',
+            path: '/about',
+            plugin: null
+          },
+          {
+            method: 'GET',
             path: '/foo-admin-label',
             plugin: 'foo'
           },
@@ -107,16 +107,6 @@ describe('hapi-setup Plugin', function () {
             method: 'GET',
             path: '/foo-no-labels',
             plugin: 'foo'
-          },
-          {
-            method: 'GET',
-            path: '/hapi-setup',
-            plugin: 'hapi-setup'
-          },
-          {
-            method: 'GET',
-            path: '/hapi-setup/data',
-            plugin: 'hapi-setup'
           },
           {
             method: 'GET',
@@ -133,18 +123,13 @@ describe('hapi-setup Plugin', function () {
         expect(connections[2].routes).to.deep.equal([
           {
             method: 'GET',
+            path: '/about',
+            plugin: null
+          },
+          {
+            method: 'GET',
             path: '/foo-no-labels',
             plugin: 'foo'
-          },
-          {
-            method: 'GET',
-            path: '/hapi-setup',
-            plugin: 'hapi-setup'
-          },
-          {
-            method: 'GET',
-            path: '/hapi-setup/data',
-            plugin: 'hapi-setup'
           },
           {
             method: 'GET',
@@ -222,29 +207,6 @@ describe('hapi-setup Plugin', function () {
         });
         expect(res.result.connections[1].plugins).to.deep.equal(plugins);
         expect(res.result.connections[2].plugins).to.deep.equal(plugins);
-        done();
-      });
-    });
-  });
-
-  it('returns JSON as the Content-Type', function (done) {
-    Server.prepareServer(function (err, server) {
-      expect(err).to.not.exist();
-      getData(server, function (res) {
-        expect(res.statusCode).to.equal(200);
-        expect(res.headers['content-type']).to.equal('application/json; charset=utf-8');
-        done();
-      });
-    });
-  });
-
-  it('returns HTML as the Content-Type', function (done) {
-    Server.prepareServer(function (err, server) {
-      expect(err).to.not.exist();
-      getData(server, '/hapi-setup', function (res) {
-        expect(res.statusCode).to.equal(200);
-        expect(res.headers['content-type']).to.equal('text/html; charset=utf-8');
-        expect(res.result).to.match(/<!DOCTYPE html>/);
         done();
       });
     });
