@@ -1,6 +1,7 @@
 'use strict';
 var Hapi = require('hapi');
 var HapiSetup = require('../../lib');
+var Plugins = require('./plugins');
 
 module.exports.prepareServer = function (options, callback) {
   if (typeof options === 'function') {
@@ -14,17 +15,25 @@ module.exports.prepareServer = function (options, callback) {
   server.connection({labels: ['admin']});
   server.connection();
 
+  server.route({
+    method: 'GET',
+    path: '/about',
+    handler: function (request, reply) {
+      reply(request.server.plugins['hapi-setup'].setup());
+    }
+  });
+
   server.register([
     {
       register: HapiSetup.register,
       options: options
     },
     {
-      register: PluginFoo.register,
+      register: Plugins.Foo,
       options: {}
     },
     {
-      register: PluginBar.register,
+      register: Plugins.Bar,
       options: {key: 'value'}
     }
 
@@ -67,65 +76,4 @@ module.exports.prepareServer = function (options, callback) {
 
     callback(err, server);
   });
-};
-
-function fooRegister (server, options, next) {
-  var publicLabel = server.select('public');
-  var privateLabel = server.select('private');
-  var adminLabel = server.select('admin');
-
-  server.route({
-    method: 'GET',
-    path: '/foo-no-labels',
-    config: {
-      handler: function (request, reply) {}
-    }
-  });
-
-  publicLabel.route({
-    method: 'GET',
-    path: '/foo-public-label',
-    config: {
-      handler: function (request, reply) {}
-    }
-  });
-
-  privateLabel.route({
-    method: 'GET',
-    path: '/foo-private-label',
-    config: {
-      handler: function (request, reply) {}
-    }
-  });
-
-  adminLabel.route({
-    method: 'GET',
-    path: '/foo-admin-label',
-    config: {
-      handler: function (request, reply) {}
-    }
-  });
-
-  next();
-}
-
-fooRegister.attributes = {
-  name: 'foo'
-};
-
-var PluginFoo = {
-  register: fooRegister
-};
-
-function barRegister (server, options, next) {
-  next();
-}
-
-barRegister.attributes = {
-  name: 'bar',
-  version: '1.0.0'
-};
-
-var PluginBar = {
-  register: barRegister
 };

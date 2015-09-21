@@ -5,24 +5,35 @@
 ![Dependencies](http://img.shields.io/david/continuationlabs/hapi-setup.svg)
 ![devDependencies](http://img.shields.io/david/dev/continuationlabs/hapi-setup.svg)
 
-hapi plugin for viewing the server configuration. Provides information such as the version of Node running, the hapi server connections, routing tables per connection, and plugin information.
+hapi plugin that exposes a `setup` method for retrieving the server configuration. Provides information such as the version of Node running, the hapi server connections, routing tables per connection, and plugin information.
 
-## Configuration Options
+## Example Usage
 
-`hapi-setup` supports the following options via the plugin's `register()` function.
+The example below registers the `hapi-setup` plugin. In the handler for the `/about` route, the `hapi-setup.setup()` function is executed, which returns an object, and the result is then used to reply to the incoming request.
 
-### `path`
+```js
+var server = new Hapi.Server();
+server.connection();
 
-The endpoint where the plugin will serve HTML. Defaults to `'/hapi-setup'`.
+server.register(require('hapi-setup'), function (err) {
+  server.route({
+    method: 'GET',
+    path: '/about',
+    handler: function (request, reply) {
+      reply(request.server.plugins['hapi-setup'].setup());
+    }
+  })
+});
 
-### `dataPath`
+```
 
-The endpoint where the plugin will serve JSON. Defaults to `'/hapi-setup/data'`.
+## API
 
-## Response
+### `setup()`
 
-The plugin's data endpoint returns JSON in the following format:
+Exposed plugin method used for returning the setup information of the current hapi server.
 
+Returns the following object:
 - `runtime` - Object. Contains information about the Node process.
   - `versions` - Object. The version of Node, as well as Node's dependencies.
   - `execPath` - String. The path to the Node executable.
