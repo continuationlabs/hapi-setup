@@ -1,8 +1,10 @@
 'use strict';
 var Code = require('code');
+var Joi = require('joi');
 var Lab = require('lab');
 var Package = require('../package.json');
 var Server = require('./fixtures/server');
+var Schema = require('./fixtures/schema');
 
 // Test shortcuts
 var lab = exports.lab = Lab.script();
@@ -207,6 +209,18 @@ describe('hapi-setup Plugin', function () {
         });
         expect(res.result.connections[1].plugins).to.deep.equal(plugins);
         expect(res.result.connections[2].plugins).to.deep.equal(plugins);
+        done();
+      });
+    });
+  });
+
+  it('returns a predictable object', function (done) {
+    Server.prepareServer(function (err, server) {
+      expect(err).to.not.exist();
+
+      var data = server.plugins['hapi-setup'].setup();
+      Joi.validate(data, Schema, { presence: 'required' }, function (error, value) {
+        expect(error).to.be.null();
         done();
       });
     });
