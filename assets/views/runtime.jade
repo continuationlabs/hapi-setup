@@ -1,0 +1,20 @@
+h2 Runtime
+div
+  span Execution Path
+  span #{runtime.execPath}
+div
+  span Command Line Arguments
+  span [#{runtime.argv}]
+div
+  span Node Command Line Arguments
+  span #{runtime.execArgv}
+div
+  h3 Versions
+  ul
+    each value, key in runtime.versions
+      li= key + ' version: ' + value
+div
+  h3 Environment
+  ul
+    each value, key in runtime.env
+      li= key + ' = ' + value

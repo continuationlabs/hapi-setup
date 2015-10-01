@@ -1,5 +1,6 @@
 'use strict';
 var Hapi = require('hapi');
+var Inert = require('inert');
 var HapiSetup = require('../../lib');
 var Plugins = require('./plugins');
 
@@ -24,6 +25,7 @@ module.exports.prepareServer = function (options, callback) {
   });
 
   server.register([
+    Inert,
     {
       register: HapiSetup.register,
       options: options
@@ -74,6 +76,8 @@ module.exports.prepareServer = function (options, callback) {
       }
     });
 
-    callback(err, server);
+    server.start(function () {
+      callback(err, server);
+    });
   });
 };
