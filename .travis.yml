@@ -1,9 +1,15 @@
 sudo: false
 language: node_js
 node_js:
-  - "0.10"
-  - "0.12"
-  - "4"
-  - "iojs"
-  - "iojs-v1"
-  - "iojs-v2"
+    - "0.10"
+    - "0.12"
+    - "4"
+    - "iojs"
+    - "iojs-v1"
+    - "iojs-v2"
+env:
+    - HAPI_VERSION="8"
+    - HAPI_VERSION="9"
+install:
+    - npm install
+    - npm install hapi@$HAPI_VERSION
