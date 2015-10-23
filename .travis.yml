@@ -7,9 +7,3 @@ node_js:
     - "iojs"
     - "iojs-v1"
     - "iojs-v2"
-env:
-    - HAPI_VERSION="8"
-    - HAPI_VERSION="9"
-install:
-    - npm install
-    - npm install hapi@$HAPI_VERSION

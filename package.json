@@ -38,6 +38,9 @@
     "lab": "5.x.x",
     "vision": "3.x.x"
   },
+  "peerDependencies": {
+    "hapi": "9.x.x"
+  },
   "scripts": {
     "test": "belly-button -i 'lib/*.js' -i dev-server.js -i webpack.config.js && lab -v -t 100 -a code",
     "webpack": "webpack -w -c -v",
