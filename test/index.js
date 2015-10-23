@@ -73,13 +73,14 @@ describe('hapi-setup Plugin', function () {
         },
         {
           method: 'GET',
-          path: '/public/main.js',
+          path: '/setup',
           plugin: 'hapi-setup'
         },
         {
           method: 'GET',
-          path: '/setup',
-          plugin: 'hapi-setup' },
+          path: '/setup/public/{file}',
+          plugin: 'hapi-setup'
+        },
         {
           method: 'GET',
           path: '/about',
@@ -109,15 +110,16 @@ describe('hapi-setup Plugin', function () {
         {
           method: 'GET',
           path: '/foo-no-labels',
-          plugin: 'foo' },
-        {
-          method: 'GET',
-          path: '/public/main.js',
-          plugin: 'hapi-setup'
+          plugin: 'foo'
         },
         {
           method: 'GET',
           path: '/setup',
+          plugin: 'hapi-setup'
+        },
+        {
+          method: 'GET',
+          path: '/setup/public/{file}',
           plugin: 'hapi-setup'
         },
         {
@@ -143,12 +145,12 @@ describe('hapi-setup Plugin', function () {
         },
         {
           method: 'GET',
-          path: '/public/main.js',
+          path: '/setup',
           plugin: 'hapi-setup'
         },
         {
           method: 'GET',
-          path: '/setup',
+          path: '/setup/public/{file}',
           plugin: 'hapi-setup'
         },
         {
@@ -198,7 +200,7 @@ describe('hapi-setup Plugin', function () {
         var plugins = res.result.connections[0].plugins;
 
         expect(plugins).to.be.an.object();
-        expect(Object.keys(plugins)).to.deep.equal(['inert', 'hapi-setup', 'foo', 'bar']);
+        expect(Object.keys(plugins)).to.deep.equal(['inert', 'vision', 'hapi-setup', 'foo', 'bar']);
 
         var hapiSetup = plugins['hapi-setup'];
 
@@ -258,6 +260,22 @@ describe('hapi-setup Plugin', function () {
         url: '/setup'
       }, function (res) {
         expect(res.statusCode).to.equal(404);
+        done();
+      });
+    });
+  });
+
+  it('exposes a view in UI mode', function (done) {
+    Server.prepareServer({
+      ui: true
+    }, function (err, server) {
+      expect(err).to.not.exist(err);
+      server.inject({
+        url: '/setup'
+      }, function (res) {
+        expect(res.statusCode).to.equal(200);
+        expect(res.headers['content-type']).to.equal('text/html');
+        expect(res.headers['content-length']).to.be.above(15000);
         done();
       });
     });

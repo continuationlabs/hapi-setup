@@ -30,6 +30,7 @@
     "webpack": "1.12.2"
   },
   "devDependencies": {
+    "belly-button": "1.x.x",
     "code": "1.x.x",
     "hapi": "9.x.x",
     "inert": "3.x.x",
@@ -38,7 +39,7 @@
     "vision": "3.x.x"
   },
   "scripts": {
-    "test": "semistandard && lab -v -t 100 -a code",
+    "test": "belly-button -i 'lib/*.js' -i dev-server.js -i webpack.config.js && lab -v -t 100 -a code",
     "webpack": "webpack -w -c -v",
     "prepublish": "webpack"
   },

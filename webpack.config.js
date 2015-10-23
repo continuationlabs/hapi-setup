@@ -1,8 +1,10 @@
+'use strict';
+
 var Path = require('path');
 
 var Clean = require('clean-webpack-plugin');
 var Compress = require('compression-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var Webpack = require('webpack');
 
 var AutoPrefixer = require('autoprefixer-stylus');
@@ -24,10 +26,10 @@ plugins.push(new Compress({
 plugins.push(new HtmlWebpackPlugin({
   templateContent: function (templateParams, compilation) {
     var path = templateParams.htmlWebpackPlugin.files.chunks.main.entry;
-    return 'script(src="#{root}/public/' + path + '", type="text/javascript")'
+    return 'script(src="#{root}/public/' + path + '", type="text/javascript")';
   },
   filename: 'script.jade'
-}))
+}));
 
 module.exports = {
   context: Path.join(process.cwd(), 'assets'),
