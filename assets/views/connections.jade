@@ -35,7 +35,7 @@ each connection in connections || []
             span #{plug.multiple}
           div
             h6 Options
-            +keyvalue(plug.options || {} )
+            +keyvalue(plug.options || {})
           if plug.attributes.pkg
             div
               h6 Package

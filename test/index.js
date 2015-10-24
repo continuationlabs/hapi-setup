@@ -56,7 +56,7 @@ describe('hapi-setup Plugin', function () {
 
         var connections = res.result.connections;
 
-        expect(connections[0].routes).to.deep.equal([{
+        expect(connections[0].routes).to.deep.include([{
           method: 'GET',
           path: '/foo-no-labels',
           plugin: 'foo'
@@ -102,7 +102,7 @@ describe('hapi-setup Plugin', function () {
           plugin: null
         }]);
 
-        expect(connections[1].routes).to.deep.equal([{
+        expect(connections[1].routes).to.deep.include([{
           method: 'GET',
           path: '/foo-admin-label',
           plugin: 'foo'
@@ -138,7 +138,7 @@ describe('hapi-setup Plugin', function () {
           plugin: null
         }]);
 
-        expect(connections[2].routes).to.deep.equal([{
+        expect(connections[2].routes).to.deep.include([{
           method: 'GET',
           path: '/foo-no-labels',
           plugin: 'foo'
