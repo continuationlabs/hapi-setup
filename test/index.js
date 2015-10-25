@@ -56,89 +56,113 @@ describe('hapi-setup Plugin', function () {
 
         var connections = res.result.connections;
 
-        expect(connections[0].routes).to.deep.equal([
-          {
-            method: 'GET',
-            path: '/about',
-            plugin: null
-          },
-          {
-            method: 'GET',
-            path: '/foo-no-labels',
-            plugin: 'foo'
-          },
-          {
-            method: 'GET',
-            path: '/foo-private-label',
-            plugin: 'foo'
-          },
-          {
-            method: 'GET',
-            path: '/foo-public-label',
-            plugin: 'foo'
-          },
-          {
-            method: 'GET',
-            path: '/server-no-labels',
-            plugin: null
-          },
-          {
-            method: 'GET',
-            path: '/server-private-label',
-            plugin: null
-          },
-          {
-            method: 'GET',
-            path: '/server-public-label',
-            plugin: null
-          }
-        ]);
+        expect(connections[0].routes).to.deep.include([{
+          method: 'GET',
+          path: '/foo-no-labels',
+          plugin: 'foo'
+        },
+        {
+          method: 'GET',
+          path: '/foo-private-label',
+          plugin: 'foo'
+        },
+        {
+          method: 'GET',
+          path: '/foo-public-label',
+          plugin: 'foo'
+        },
+        {
+          method: 'GET',
+          path: '/setup',
+          plugin: 'hapi-setup'
+        },
+        {
+          method: 'GET',
+          path: '/setup/public/{file}',
+          plugin: 'hapi-setup'
+        },
+        {
+          method: 'GET',
+          path: '/about',
+          plugin: null
+        },
+        {
+          method: 'GET',
+          path: '/server-no-labels',
+          plugin: null
+        },
+        {
+          method: 'GET',
+          path: '/server-private-label',
+          plugin: null
+        },
+        {
+          method: 'GET',
+          path: '/server-public-label',
+          plugin: null
+        }]);
 
-        expect(connections[1].routes).to.deep.equal([
-          {
-            method: 'GET',
-            path: '/about',
-            plugin: null
-          },
-          {
-            method: 'GET',
-            path: '/foo-admin-label',
-            plugin: 'foo'
-          },
-          {
-            method: 'GET',
-            path: '/foo-no-labels',
-            plugin: 'foo'
-          },
-          {
-            method: 'GET',
-            path: '/server-admin-label',
-            plugin: null
-          },
-          {
-            method: 'GET',
-            path: '/server-no-labels',
-            plugin: null
-          }
-        ]);
+        expect(connections[1].routes).to.deep.include([{
+          method: 'GET',
+          path: '/foo-admin-label',
+          plugin: 'foo'
+        },
+        {
+          method: 'GET',
+          path: '/foo-no-labels',
+          plugin: 'foo'
+        },
+        {
+          method: 'GET',
+          path: '/setup',
+          plugin: 'hapi-setup'
+        },
+        {
+          method: 'GET',
+          path: '/setup/public/{file}',
+          plugin: 'hapi-setup'
+        },
+        {
+          method: 'GET',
+          path: '/about',
+          plugin: null
+        },
+        {
+          method: 'GET',
+          path: '/server-admin-label',
+          plugin: null
+        },
+        {
+          method: 'GET',
+          path: '/server-no-labels',
+          plugin: null
+        }]);
 
-        expect(connections[2].routes).to.deep.equal([
-          {
-            method: 'GET',
-            path: '/about',
-            plugin: null
-          },
-          {
-            method: 'GET',
-            path: '/foo-no-labels',
-            plugin: 'foo'
-          },
-          {
-            method: 'GET',
-            path: '/server-no-labels',
-            plugin: null
-          }
-        ]);
+        expect(connections[2].routes).to.deep.include([{
+          method: 'GET',
+          path: '/foo-no-labels',
+          plugin: 'foo'
+        },
+        {
+          method: 'GET',
+          path: '/setup',
+          plugin: 'hapi-setup'
+        },
+        {
+          method: 'GET',
+          path: '/setup/public/{file}',
+          plugin: 'hapi-setup'
+        },
+        {
+          method: 'GET',
+          path: '/about',
+          plugin: null
+        },
+        {
+          method: 'GET',
+          path: '/server-no-labels',
+          plugin: null
+        }]);
 
         done();
       });
@@ -176,7 +200,7 @@ describe('hapi-setup Plugin', function () {
         var plugins = res.result.connections[0].plugins;
 
         expect(plugins).to.be.an.object();
-        expect(Object.keys(plugins)).to.deep.equal(['hapi-setup', 'foo', 'bar']);
+        expect(Object.keys(plugins)).to.deep.equal(['inert', 'vision', 'hapi-setup', 'foo', 'bar']);
 
         var hapiSetup = plugins['hapi-setup'];
 
@@ -221,6 +245,37 @@ describe('hapi-setup Plugin', function () {
       var data = server.plugins['hapi-setup'].setup();
       Joi.validate(data, Schema, { presence: 'required' }, function (error, value) {
         expect(error).to.be.null();
+        done();
+      });
+    });
+  });
+
+  it('does not enable the UI when passing false', function (done) {
+    Server.prepareServer({
+      ui: false
+    }, function (err, server) {
+      expect(err).to.not.exist();
+      server.inject({
+        method: 'GET',
+        url: '/setup'
+      }, function (res) {
+        expect(res.statusCode).to.equal(404);
+        done();
+      });
+    });
+  });
+
+  it('exposes a view in UI mode', function (done) {
+    Server.prepareServer({
+      ui: true
+    }, function (err, server) {
+      expect(err).to.not.exist(err);
+      server.inject({
+        url: '/setup'
+      }, function (res) {
+        expect(res.statusCode).to.equal(200);
+        expect(res.headers['content-type']).to.equal('text/html');
+        expect(res.headers['content-length']).to.be.above(15000);
         done();
       });
     });

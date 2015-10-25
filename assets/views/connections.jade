@@ -1,0 +1,46 @@
+mixin keyvalue(obj)
+  each value, key in obj
+    div
+      span= key + ': ' + value
+
+h2 Server Connections
+each connection in connections || []
+  div
+    h3= 'Connection ' + connection.uri
+    span Labels
+    span [#{connection.labels}]
+    h4 Routes
+    div
+      each route in connection.routes || []
+        div
+          div
+            span HTTP verb
+            spab #{route.method}
+          div
+            span Path
+            span #{route.path}
+          div
+            span Plugin
+            span #{route.plugin}
+    h4 Plugins
+    div
+      each plug, name in connection.plugins || {}
+        div
+          h5 #{name}
+          div
+            span Version
+            span #{plug.version}
+          div
+            span Multiple
+            span #{plug.multiple}
+          div
+            h6 Options
+            +keyvalue(plug.options || {})
+          if plug.attributes.pkg
+            div
+              h6 Package
+              +keyvalue(plug.attributes.pkg)
+          else 
+            div
+              h6 Attributes
+              +keyvalue(plug.attributes || {})
