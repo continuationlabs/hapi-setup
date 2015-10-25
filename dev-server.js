@@ -10,7 +10,6 @@ server.connection({ port: 8888 });
 server.register([{
   register: require('./lib'),
   options: {
-    endpoint: '/foobar',
     _cacheView: false
   }
 },
@@ -24,6 +23,9 @@ require('vision')], function (err) {
     handler: function (request, reply) {
       reply(request.server.plugins['hapi-setup'].setup());
     }
+  });
+  server.on('request-error', function (request, err) {
+    console.log(err.message);
   });
   server.start(function () {
     console.log('Server started at ' + server.info.uri);

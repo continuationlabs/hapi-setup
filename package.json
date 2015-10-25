@@ -42,9 +42,10 @@
     "hapi": "9.x.x"
   },
   "scripts": {
-    "test": "belly-button -i 'lib/*.js' -i dev-server.js -i webpack.config.js && lab -v -t 100 -a code",
-    "webpack": "webpack -w -c -v",
-    "prepublish": "webpack"
+    "lint": "belly-button -i 'lib/*.js' -i dev-server.js -i webpack.config.js",
+    "test": "npm run lint && lab -v -t 100 -a code",
+    "prepublish": "webpack",
+    "webpack": "webpack -w -c -v"
   },
   "keywords": [
     "hapi",
