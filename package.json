@@ -43,8 +43,9 @@
   },
   "scripts": {
     "lint": "belly-button -i 'lib/*.js' -i dev-server.js -i webpack.config.js",
-    "test": "npm run lint && lab -v -t 100 -a code",
     "prepublish": "webpack",
+    "start": "node dev-server & npm run webpack",
+    "test": "npm run lint && lab -v -t 100 -a code",
     "webpack": "webpack -w -c -v"
   },
   "keywords": [
