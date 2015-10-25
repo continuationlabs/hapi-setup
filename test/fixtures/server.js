@@ -17,13 +17,19 @@ module.exports.prepareServer = function (options, callback) {
   server.connection({labels: ['admin']});
   server.connection();
 
-  server.route({
+  server.route([{
     method: 'GET',
     path: '/about',
     handler: function (request, reply) {
       reply(request.server.plugins['hapi-setup'].setup());
     }
-  });
+  },{
+    method: 'POST',
+    path: '/about',
+    handler: function (request, reply) {
+      reply(request.body);
+    }
+  }]);
 
   server.register([
     Inert,
