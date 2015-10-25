@@ -87,6 +87,11 @@ describe('hapi-setup Plugin', function () {
           plugin: null
         },
         {
+          method: 'POST',
+          path: '/about',
+          plugin: null
+        },
+        {
           method: 'GET',
           path: '/server-no-labels',
           plugin: null
@@ -128,6 +133,11 @@ describe('hapi-setup Plugin', function () {
           plugin: null
         },
         {
+          method: 'POST',
+          path: '/about',
+          plugin: null
+        },
+        {
           method: 'GET',
           path: '/server-admin-label',
           plugin: null
@@ -155,6 +165,11 @@ describe('hapi-setup Plugin', function () {
         },
         {
           method: 'GET',
+          path: '/about',
+          plugin: null
+        },
+        {
+          method: 'POST',
           path: '/about',
           plugin: null
         },
