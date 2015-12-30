@@ -9,5 +9,4 @@ html(lang="en")
       include ./runtime
     div.configuration
       include ./connections
-  
-    include ../../build/script
+    script(src="#{endpoint}/public/" + stats.assetsByChunkName.main, type="text/javascript")
