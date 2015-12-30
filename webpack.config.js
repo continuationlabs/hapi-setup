@@ -4,7 +4,7 @@ var Path = require('path');
 
 var Clean = require('clean-webpack-plugin');
 var Compress = require('compression-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 var Webpack = require('webpack');
 
 var AutoPrefixer = require('autoprefixer-stylus');
@@ -23,13 +23,7 @@ plugins.push(new Webpack.optimize.OccurenceOrderPlugin(true));
 plugins.push(new Compress({
   regExp: /\.js$/
 }));
-plugins.push(new HtmlWebpackPlugin({
-  templateContent: function (templateParams, compilation) {
-    var path = templateParams.htmlWebpackPlugin.files.chunks.main.entry;
-    return 'script(src="#{root}/public/' + path + '", type="text/javascript")';
-  },
-  filename: 'script.jade'
-}));
+plugins.push(new StatsWriterPlugin());
 
 module.exports = {
   context: Path.join(process.cwd(), 'assets'),
@@ -52,7 +46,9 @@ module.exports = {
     modulesDirectories: ['node_modules']
   },
   stylus: {
-    use: [Rupture(), Axis(), AutoPrefixer()]
+    use: [Rupture(), Axis(), AutoPrefixer({
+      browsers: ['> 10%', 'Last 2 versions']
+    })]
   },
   plugins: plugins
 };
