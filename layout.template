@@ -1,0 +1,7 @@
+doctype html
+html(lang="en")
+  head
+    title Hapi Setup
+  body
+    block content
+    script(src="#{endpoint}/public/{{BUNDLE_NAME}}", type="text/javascript")

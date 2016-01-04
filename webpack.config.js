@@ -1,10 +1,11 @@
 'use strict';
 
 var Path = require('path');
+var Fs = require('fs');
 
 var Clean = require('clean-webpack-plugin');
 var Compress = require('compression-webpack-plugin');
-var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var Webpack = require('webpack');
 
 var AutoPrefixer = require('autoprefixer-stylus');
@@ -23,7 +24,15 @@ plugins.push(new Webpack.optimize.OccurenceOrderPlugin(true));
 plugins.push(new Compress({
   regExp: /\.js$/
 }));
-plugins.push(new StatsWriterPlugin());
+plugins.push(new HtmlWebpackPlugin({
+  templateContent: function (templateParams, compilation) {
+    var path = templateParams.htmlWebpackPlugin.files.chunks.main.entry;
+    var template = Fs.readFileSync('layout.template', 'utf8');
+
+    return template.replace('{{BUNDLE_NAME}}', path);
+  },
+  filename: 'layout.jade'
+}));
 
 module.exports = {
   context: Path.join(process.cwd(), 'assets'),
