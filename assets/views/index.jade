@@ -1,12 +1,9 @@
-doctype html
-html(lang="en")
-  head
-    title Hapi Setup
-  body
-    h1 This is your hapi-setup!
-    p Use this page to get a quick view of all the important configuration settings used in the currently running hapi server.
-    div.configuration
-      include ./runtime
-    div.configuration
-      include ./connections
-    script(src="#{endpoint}/public/" + stats.assetsByChunkName.main, type="text/javascript")
+extends ../../build/layout
+
+block content
+  h1 This is your hapi-setup!
+  p Use this page to get a quick view of all the important configuration settings used in the currently running hapi server.
+  div.configuration
+    include ./runtime
+  div.configuration
+    include ./connections
