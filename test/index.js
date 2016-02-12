@@ -20,7 +20,7 @@ function getData (server, path, callback) {
     path = '/about';
   }
 
-  server.inject({
+  server.select('public').inject({
     method: 'GET',
     url: path
   }, callback);
@@ -224,14 +224,14 @@ describe('hapi-setup Plugin', function () {
         expect(hapiSetup.multiple).to.equal(false);
         expect(hapiSetup.options).to.deep.equal({});
         expect(hapiSetup.attributes).to.be.an.object();
-        expect(hapiSetup.attributes.pkg).to.deep.equal(Package);
+        expect(hapiSetup.attributes).to.deep.equal(Package);
         expect(plugins.foo).to.deep.equal({
           name: 'foo',
           version: '0.0.0',
           multiple: false,
           options: {},
           attributes: {
-            name: 'foo'
+            version: '0.0.0'
           }
         });
         expect(plugins.bar).to.deep.equal({
@@ -242,7 +242,6 @@ describe('hapi-setup Plugin', function () {
             key: 'value'
           },
           attributes: {
-            name: 'bar',
             version: '1.0.0'
           }
         });
@@ -270,7 +269,7 @@ describe('hapi-setup Plugin', function () {
       ui: false
     }, function (err, server) {
       expect(err).to.not.exist();
-      server.inject({
+      server.select('public').inject({
         method: 'GET',
         url: '/setup'
       }, function (res) {
@@ -285,7 +284,7 @@ describe('hapi-setup Plugin', function () {
       ui: true
     }, function (err, server) {
       expect(err).to.not.exist(err);
-      server.inject({
+      server.select('public').inject({
         url: '/setup'
       }, function (res) {
         expect(res.statusCode).to.equal(200);
