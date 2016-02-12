@@ -14,31 +14,33 @@
   },
   "license": "MIT",
   "dependencies": {
-    "autoprefixer-stylus": "0.8.0",
-    "axis": "0.5.x",
-    "clean-webpack-plugin": "0.1.3",
-    "compression-webpack-plugin": "0.2.0",
-    "css-loader": "0.19.0",
-    "hoek": "2.x.x",
-    "html-webpack-plugin": "1.7.x",
+    "inert": "3.x.x",
     "jade": "1.11.0",
-    "jeet": "6.1.x",
-    "rupture": "0.6.1",
-    "style-loader": "0.12.x",
-    "stylus-loader": "1.3.x",
+    "vision": "3.x.x",
     "webpack": "1.12.2"
   },
   "devDependencies": {
+    "autoprefixer-stylus": "0.8.0",
+    "axis": "0.5.x",
     "belly-button": "1.x.x",
+    "clean-webpack-plugin": "0.1.3",
+    "compression-webpack-plugin": "0.2.0",
+    "css-loader": "0.19.0",
     "code": "1.x.x",
-    "hapi": "9.x.x",
-    "inert": "3.x.x",
+    "hapi": "13.x.x",
+    "html-webpack-plugin": "1.7.x",
+    "jeet": "6.1.x",
     "joi": "6.x.x",
     "lab": "5.x.x",
-    "vision": "3.x.x"
+    "rupture": "0.6.1",
+    "style-loader": "0.12.x",
+    "stylus-loader": "1.3.x"
   },
   "peerDependencies": {
-    "hapi": "9.x.x"
+    "hapi": ">=10.x.x"
+  },
+  "engines": {
+    "node": ">=4.0.0"
   },
   "scripts": {
     "lint": "belly-button -i 'lib/*.js' -i dev-server.js -i webpack.config.js",

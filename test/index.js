@@ -1,39 +1,36 @@
 'use strict';
-var Code = require('code');
-var Joi = require('joi');
-var Lab = require('lab');
-var Package = require('../package.json');
-var Server = require('./fixtures/server');
-var Schema = require('./fixtures/schema');
+const Code = require('code');
+const Joi = require('joi');
+const Lab = require('lab');
+const Package = require('../package.json');
+const Server = require('./fixtures/server');
+const Schema = require('./fixtures/schema');
 
 // Test shortcuts
-var lab = exports.lab = Lab.script();
-var expect = Code.expect;
-var describe = lab.describe;
-var it = lab.it;
+const lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const describe = lab.describe;
+const it = lab.it;
 
 Code.settings.truncateMessages = false;
 
-function getData (server, path, callback) {
-  if (typeof path === 'function') {
-    callback = path;
-    path = '/about';
+const getData = (server, url, callback) => {
+  if (typeof url === 'function') {
+    callback = url;
+    url = '/about';
   }
 
-  server.select('public').inject({
-    method: 'GET',
-    url: path
-  }, callback);
-}
+  server.select('public').inject({ method: 'GET', url }, callback);
+};
 
-describe('hapi-setup Plugin', function () {
-  it('supports multiple connections', function (done) {
-    Server.prepareServer(function (err, server) {
+describe('hapi-setup Plugin', () => {
+  it('supports multiple connections', (done) => {
+    Server.prepareServer((err, server) => {
       expect(err).to.not.exist();
-      getData(server, function (res) {
+      getData(server, (res) => {
         expect(res.statusCode).to.equal(200);
 
-        var connections = res.result.connections;
+        const connections = res.result.connections;
 
         expect(connections).to.be.an.array();
         expect(connections.length).to.equal(3);
@@ -48,13 +45,13 @@ describe('hapi-setup Plugin', function () {
     });
   });
 
-  it('returns routing tables by connection', function (done) {
-    Server.prepareServer(function (err, server) {
+  it('returns routing tables by connection', (done) => {
+    Server.prepareServer((err, server) => {
       expect(err).to.not.exist();
-      getData(server, function (res) {
+      getData(server, (res) => {
         expect(res.statusCode).to.equal(200);
 
-        var connections = res.result.connections;
+        const connections = res.result.connections;
 
         expect(connections[0].routes).to.deep.include([{
           method: 'GET',
@@ -184,13 +181,13 @@ describe('hapi-setup Plugin', function () {
     });
   });
 
-  it('returns node configuration information', function (done) {
-    Server.prepareServer(function (err, server) {
+  it('returns node configuration information', (done) => {
+    Server.prepareServer((err, server) => {
       expect(err).to.not.exist();
-      getData(server, function (res) {
+      getData(server, (res) => {
         expect(res.statusCode).to.equal(200);
 
-        var runtime = res.result.runtime;
+        const runtime = res.result.runtime;
 
         expect(runtime).to.be.an.object();
         expect(runtime.versions).to.deep.equal(process.versions);
@@ -206,18 +203,18 @@ describe('hapi-setup Plugin', function () {
     });
   });
 
-  it('returns plugin information', function (done) {
-    Server.prepareServer(function (err, server) {
+  it('returns plugin information', (done) => {
+    Server.prepareServer((err, server) => {
       expect(err).to.not.exist();
-      getData(server, function (res) {
+      getData(server, (res) => {
         expect(res.statusCode).to.equal(200);
 
-        var plugins = res.result.connections[0].plugins;
+        const plugins = res.result.connections[0].plugins;
 
         expect(plugins).to.be.an.object();
         expect(Object.keys(plugins)).to.deep.equal(['inert', 'vision', 'hapi-setup', 'foo', 'bar']);
 
-        var hapiSetup = plugins['hapi-setup'];
+        const hapiSetup = plugins['hapi-setup'];
 
         expect(hapiSetup.name).to.equal(Package.name);
         expect(hapiSetup.version).to.equal(Package.version);
@@ -252,41 +249,41 @@ describe('hapi-setup Plugin', function () {
     });
   });
 
-  it('returns a predictable object', function (done) {
-    Server.prepareServer(function (err, server) {
+  it('returns a predictable object', (done) => {
+    Server.prepareServer((err, server) => {
       expect(err).to.not.exist();
 
-      var data = server.plugins['hapi-setup'].setup();
-      Joi.validate(data, Schema, { presence: 'required' }, function (error, value) {
+      const data = server.plugins['hapi-setup'].setup();
+      Joi.validate(data, Schema, { presence: 'required' }, (error, value) => {
         expect(error).to.be.null();
         done();
       });
     });
   });
 
-  it('does not enable the UI when passing false', function (done) {
+  it('does not enable the UI when passing false', (done) => {
     Server.prepareServer({
       ui: false
-    }, function (err, server) {
+    }, (err, server) => {
       expect(err).to.not.exist();
       server.select('public').inject({
         method: 'GET',
         url: '/setup'
-      }, function (res) {
+      }, (res) => {
         expect(res.statusCode).to.equal(404);
         done();
       });
     });
   });
 
-  it('exposes a view in UI mode', function (done) {
+  it('exposes a view in UI mode', (done) => {
     Server.prepareServer({
       ui: true
-    }, function (err, server) {
+    }, (err, server) => {
       expect(err).to.not.exist(err);
       server.select('public').inject({
         url: '/setup'
-      }, function (res) {
+      }, (res) => {
         expect(res.statusCode).to.equal(200);
         expect(res.headers['content-type']).to.equal('text/html');
         expect(res.headers['content-length']).to.be.above(15000);
