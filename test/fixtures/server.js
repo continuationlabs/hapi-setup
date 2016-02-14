@@ -1,17 +1,17 @@
 'use strict';
-var Hapi = require('hapi');
-var Inert = require('inert');
-var Vision = require('vision');
-var HapiSetup = require('../../lib');
-var Plugins = require('./plugins');
+const Hapi = require('hapi');
+const Inert = require('inert');
+const Vision = require('vision');
+const HapiSetup = require('../../lib');
+const Plugins = require('./plugins');
 
-module.exports.prepareServer = function (options, callback) {
+module.exports.prepareServer = (options, callback) => {
   if (typeof options === 'function') {
     callback = options;
     options = {};
   }
 
-  var server = new Hapi.Server();
+  const server = new Hapi.Server();
 
   server.connection({labels: ['public', 'private']});
   server.connection({labels: ['admin']});
@@ -20,13 +20,13 @@ module.exports.prepareServer = function (options, callback) {
   server.route([{
     method: 'GET',
     path: '/about',
-    handler: function (request, reply) {
+    handler: (request, reply) => {
       reply(request.server.plugins['hapi-setup'].setup());
     }
   },{
     method: 'POST',
     path: '/about',
-    handler: function (request, reply) {
+    handler: (request, reply) => {
       reply(request.body);
     }
   }]);
@@ -47,16 +47,16 @@ module.exports.prepareServer = function (options, callback) {
       options: {key: 'value'}
     }
 
-  ], function (err) {
-    var publicLabel = server.select('public');
-    var privateLabel = server.select('private');
-    var adminLabel = server.select('admin');
+  ], (err) => {
+    const publicLabel = server.select('public');
+    const privateLabel = server.select('private');
+    const adminLabel = server.select('admin');
 
     server.route({
       method: 'GET',
       path: '/server-no-labels',
       config: {
-        handler: function (request, reply) {}
+        handler: (request, reply) => {}
       }
     });
 
@@ -64,7 +64,7 @@ module.exports.prepareServer = function (options, callback) {
       method: 'GET',
       path: '/server-public-label',
       config: {
-        handler: function (request, reply) {}
+        handler: (request, reply) => {}
       }
     });
 
@@ -72,7 +72,7 @@ module.exports.prepareServer = function (options, callback) {
       method: 'GET',
       path: '/server-private-label',
       config: {
-        handler: function (request, reply) {}
+        handler: (request, reply) => {}
       }
     });
 
@@ -80,11 +80,11 @@ module.exports.prepareServer = function (options, callback) {
       method: 'GET',
       path: '/server-admin-label',
       config: {
-        handler: function (request, reply) {}
+        handler: (request, reply) => {}
       }
     });
 
-    server.start(function () {
+    server.start(() => {
       callback(err, server);
     });
   });

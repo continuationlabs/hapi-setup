@@ -1,4 +1,6 @@
-var Bar = function (server, options, next) {
+'use strict';
+
+const Bar = (server, options, next) => {
   next();
 };
 
@@ -7,16 +9,16 @@ Bar.attributes = {
   version: '1.0.0'
 };
 
-var Foo = function (server, options, next) {
-  var publicLabel = server.select('public');
-  var privateLabel = server.select('private');
-  var adminLabel = server.select('admin');
+const Foo = (server, options, next) => {
+  const publicLabel = server.select('public');
+  const privateLabel = server.select('private');
+  const adminLabel = server.select('admin');
 
   server.route({
     method: 'GET',
     path: '/foo-no-labels',
     config: {
-      handler: function (request, reply) {}
+      handler: (request, reply) => {}
     }
   });
 
@@ -24,7 +26,7 @@ var Foo = function (server, options, next) {
     method: 'GET',
     path: '/foo-public-label',
     config: {
-      handler: function (request, reply) {}
+      handler: (request, reply) => {}
     }
   });
 
@@ -32,7 +34,7 @@ var Foo = function (server, options, next) {
     method: 'GET',
     path: '/foo-private-label',
     config: {
-      handler: function (request, reply) {}
+      handler: (request, reply) => {}
     }
   });
 
@@ -40,7 +42,7 @@ var Foo = function (server, options, next) {
     method: 'GET',
     path: '/foo-admin-label',
     config: {
-      handler: function (request, reply) {}
+      handler: (request, reply) => {}
     }
   });
 
@@ -51,7 +53,4 @@ Foo.attributes = {
   name: 'foo'
 };
 
-module.exports = {
-  Foo: Foo,
-  Bar: Bar
-};
+module.exports = { Foo, Bar };

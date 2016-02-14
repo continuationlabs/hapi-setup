@@ -1,18 +1,18 @@
 'use strict';
 
-var Path = require('path');
-var Fs = require('fs');
+const Path = require('path');
+const Fs = require('fs');
 
-var Clean = require('clean-webpack-plugin');
-var Compress = require('compression-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var Webpack = require('webpack');
+const Clean = require('clean-webpack-plugin');
+const Compress = require('compression-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Webpack = require('webpack');
 
-var AutoPrefixer = require('autoprefixer-stylus');
-var Axis = require('axis');
-var Rupture = require('rupture');
+const AutoPrefixer = require('autoprefixer-stylus');
+const Axis = require('axis');
+const Rupture = require('rupture');
 
-var plugins = [];
+const plugins = [];
 
 plugins.push(new Webpack.optimize.UglifyJsPlugin({
   compress: {
@@ -26,8 +26,8 @@ plugins.push(new Compress({
 }));
 plugins.push(new HtmlWebpackPlugin({
   templateContent: function (templateParams, compilation) {
-    var path = templateParams.htmlWebpackPlugin.files.chunks.main.entry;
-    var template = Fs.readFileSync('layout.template', 'utf8');
+    const path = templateParams.htmlWebpackPlugin.files.chunks.main.entry;
+    const template = Fs.readFileSync('layout.template', 'utf8');
 
     return template.replace('{{BUNDLE_NAME}}', path);
   },
