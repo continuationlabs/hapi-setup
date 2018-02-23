@@ -3,6 +3,8 @@
 [![Current Version](https://img.shields.io/npm/v/hapi-setup.svg)](https://www.npmjs.org/package/hapi-setup)
 [![Build Status via Travis CI](https://travis-ci.org/continuationlabs/hapi-setup.svg?branch=master)](https://travis-ci.org/continuationlabs/hapi-setup)
 ![Dependencies](http://img.shields.io/david/continuationlabs/hapi-setup.svg)
+[![belly-button-style](https://img.shields.io/badge/eslint-bellybutton-4B32C3.svg)](https://github.com/continuationlabs/belly-button)
+
 
 hapi plugin that exposes a `setup` method for retrieving the server configuration. Provides information such as the version of Node running, the hapi server connections, routing tables per connection, and plugin information.
 
